@@ -13,6 +13,14 @@ var (
 	ErrNoUPXAvailable = errors.New("upx binary not available")
 )
 
+type VersionInfo struct {
+	Built     string
+	Go        string
+	GitCommit string
+	UPX       string
+	Version   string
+}
+
 type Builder struct {
 	builds    []*Build
 	meta      *Meta
@@ -21,13 +29,16 @@ type Builder struct {
 	upx       *UPX
 }
 
+const ASCII = ` ___      _ _    _
+| _ )_  _(_) |__| |___ _ _
+| _ \ || | | / _' / -_) '_|
+|___/\_,_|_|_\__,_\___|_|
+`
+
 func (b *Builder) printBuilderInfo() {
 	var output strings.Builder
 
-	output.WriteString(" ___      _ _    _\n")
-	output.WriteString("| _ )_  _(_) |__| |___ _ _\n")
-	output.WriteString("| _ \\ || | | / _` / -_) '_|\n")
-	output.WriteString("|___/\\_,_|_|_\\__,_\\___|_|\n")
+	output.WriteString(ASCII)
 	output.WriteString("===========================\n")
 
 	output.WriteString("Start building '")
@@ -134,8 +145,8 @@ func (b *Builder) Start() error {
 	return nil
 }
 
-func Start(now time.Time) error {
-	builder, cli, err := ParseCLI(os.Args, NewUPX(), now)
+func Start(now time.Time, versionInfo *VersionInfo) error {
+	builder, cli, err := ParseCLI(os.Args, NewUPX(), now, versionInfo)
 	if err != nil {
 		cli.ShowUsage()
 		return nil

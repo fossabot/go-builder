@@ -13,7 +13,8 @@ import (
 )
 
 const usage = `Usage:
-%s [path/to/main.go]
+%s [path/to/main.go]	start building
+%s version		shows version info
 
 Flags:
 `
@@ -93,7 +94,7 @@ func (cli *Cli) exists(path string) error {
 func (cli *Cli) createFlagSet(args []string) {
 	cli.flagSet = flag.NewFlagSet("menu", flag.ContinueOnError)
 	cli.flagSet.Usage = func() {
-		fmt.Printf(usage, args[0])
+		fmt.Printf(usage, args[0], args[0])
 		cli.flagSet.PrintDefaults()
 	}
 
@@ -124,11 +125,58 @@ func (cli *Cli) detectName() string {
 	return strings.TrimSuffix(f, filepath.Ext(f))
 }
 
-func ParseCLI(args []string, upx *UPX, now time.Time) (*Builder, *Cli, error) {
+func printVersionInfo(info *VersionInfo) {
+	var output strings.Builder
+
+	output.WriteString(ASCII)
+
+	if info.Version != "" {
+		output.WriteString("Version:\t")
+		output.WriteString(info.Version)
+		output.WriteString("\n")
+	}
+
+	if info.GitCommit != "" {
+		output.WriteString("Git commit:\t")
+		output.WriteString(info.GitCommit)
+		output.WriteString("\n")
+	}
+
+	output.WriteString("Built:\t\t")
+	output.WriteString(info.Built)
+	output.WriteString("\n")
+
+	output.WriteString("Go:\t\t")
+	output.WriteString(info.Go)
+	output.WriteString("\n")
+
+	if info.UPX != "" {
+		output.WriteString("UPX:\t\t")
+		output.WriteString(info.UPX)
+		output.WriteString("\n")
+	}
+
+	fmt.Println(output.String())
+}
+
+func ParseCLI(args []string, upx *UPX, now time.Time, versionInfo *VersionInfo) (*Builder, *Cli, error) {
+	if len(args) > 1 && args[1] == "--" {
+		tmp := args[2:]
+		new := make([]string, 0, len(tmp) + 1)
+		new = append(new, args[0])
+		new = append(new, tmp...)
+		args = new
+	}
+	
 	cli := &Cli{
 		buildTargets: make(Triplets, 0, len(allBuildTargets)),
 	}
 	cli.createFlagSet(args)
+
+	if len(args) > 1 && args[1] == "version" {
+		printVersionInfo(versionInfo)
+		os.Exit(0)
+	}
 
 	err := cli.entryFilePath(args)
 	if err != nil {

@@ -58,8 +58,12 @@ func main() {
 
 ### Changelog
 
+#### 0.1.2
++ go-builder is now building itself on travis
++ added "version" command
+
 #### 0.1.1
-+ go-builder will now skipp usless musl builds if CGO is disabled
++ go-builder will now skip useless musl builds if CGO is disabled
 
 #### 0.1.0
 + init
