@@ -1,0 +1,30 @@
+language: go
+sudo: false
+matrix:
+  include:
+  - go: 1.12.x
+    env:
+    - LATEST=true
+    - GO111MODULE=on
+
+before_install:
+  - sudo apt-get install -y upx
+  - wget https://github.com/demaggus83/go-builder/releases/download/v0.1.2/builder-amd64-linux-upx
+  - mv builder-amd64-linux-upx go-builder
+  - chmod +x go-builder
+
+script:
+- go mod download
+- if [ "${LATEST}" = "true" ]; then sh build.sh; fi
+
+deploy:
+  provider: releases
+  skip_cleanup: true
+  # api_key:
+  #   secure: 
+  file_glob: true
+  file: dist/*
+  on:
+    repo: username/somerepo
+    tags: true
+    condition: "$LATEST = true"

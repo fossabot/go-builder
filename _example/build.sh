@@ -8,4 +8,6 @@ if [ -z ${VERSION}]; then
     VERSION="unknown"
 fi
 
-go-builder ${ENTRY} -git ${GIT_COMMIT} -version ${VERSION} -upx ${UPX}
+# If CGO is needed add -cgo
+# ./go-builder ${ENTRY} -cgo -git ${GIT_COMMIT} -version ${VERSION} -upx ${UPX}
+./go-builder ${ENTRY} -git ${GIT_COMMIT} -version ${VERSION} -upx ${UPX}
