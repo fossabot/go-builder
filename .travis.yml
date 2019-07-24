@@ -1,0 +1,35 @@
+language: go
+sudo: false
+matrix:
+  include:
+  - go: 1.12.x
+    env:
+    - LATEST=true
+    - GO111MODULE=on
+
+install:
+- # skip
+
+env:
+  matrix:
+  - GO111MODULE=on
+  global:
+    secure: xFIixXzg47luOC4XgEHjiCxRtATVAZ+EVesQOlDkS5EffNQMx86lBVnwXxegnQFH9uIz/3eNOvvFBPpY37ngW2q3WHV12Qf6nod1jIK/T48dvhQDGcMJHE9L337ALaH8LmkVGjfZtmlsoIVqjN/ki+A1zDN1LnX1tBbOajFfEXlA8icd9ltenBgA1k1v5L2qaluMeFkjYa+LFLlG2xa3G++baQGibkQCsFwl3UnIcbYCsmENbfI6ZNd2swO6bmcYHsBs/OzLdhGLIjVOxwYPaNiAAKcC4YELQN7gqS6cg/1DO5f/caaQhBwmFlXnvg3KwL2lqG2XT7F3iAc5kz3uOl184fMztkryYklybrwKG5gZki7h+oCbdKSEX29oYvmBewk30ZnH3PblBETT7jdV4Ll8wHo8IarDG/hD/qTvUPFpCSPDmZnkSjLKtv9HDktJUgyUt4c0n7+cVVWvb8gY4X2RJjXjK4yC4CeLvBr6T/XG85Psr1XUBwCkJzE4AFmJVAAJeC3qBHGImwrtqsGoup+Gp2Uk8lE8fAA21Jz5xtIZ1CT57YV1sgwbrnPx4NfgGSLNLZMjNl4IkkgP6Z9lKlqINDlG/9HSJJnCPCzxpI6GhlePZy4iWKAdcQ+G+nif9GLmXNS4WzMy63L1TpkSTaCiWHyn+4ifOsT9d9PJNso=
+
+script:
+- go mod download
+- diff -u <(echo -n) <(gofmt -d .)
+- go vet ./...
+- go test -v -race ./...
+- if [ "${LATEST}" = "true" ]; then go version && go run ./build/build.go; fi
+
+deploy:
+  provider: releases
+  api_key:
+    secure: fcDnlrfvzOanWVqFQq8QeNXx2vQeFIO/vuUqP04GUsD7K9BTMH+G8zS/1v5BCHTDYPCqsTVNg2QhVdE7TziBn4zwnhVKrZpPq1J6f/7Ote8xHIR8LL/HNaqN6OZpYi+4gD9pR4ANnRgYPuoN7l28EiuRepxSnvs1imKjqp2B7XPJUZrzYv9pBycJ7VReWgUt9CJg31HOXeGY2zUy1eZjY9OEzFfXzA/XAoKZSZxuPrTOZuMrVpuSJgKFmSqHCQWJ1crqoUnT/RD5ksNAm3+QFxdiuzWci02vrqF+nSdptp5ghsmHkzn4t2mE945l0q7L4d592ODhQd2xL7t5Mv/sxPUB1GX1xqm5RFGueFFfZNVwCxhrcUDweZkDorILo1+8/vTZ51LbkaK41kUkTKDuJzd/bxAGfzg2xnCfZDsHPbDbxv9F+a29WZw5tddXY5UdSmo6AgZAqpzKJPKFnl0G2Dr8MkPoZcJPrA2QRXi5KJITE9a/mwVRKks6PDG30y0GSWo9D0vRu4tWqMBQNaBuxf2un/4nlXQWw+pS0NFYS23XZ1BezcX/vMKxNGK5pH+7tSOvH4JMnxg4lRoMObyYaT118zD/sMKGhWCqCwVzrCmMT/Zq87spdh8S7PPUptjniSGZn0QpoNiL8+qtQbD54mesk4y1+xavfo5mL1FDalo=
+  file_glob: true
+  file: dist/*
+  on:
+    repo: demaggus83/go-builder
+    tags: true
+    condition: "$LATEST = true"
