@@ -1,4 +1,8 @@
 # Builder
+[![build status](https://secure.travis-ci.org/demaggus83/go-builder.svg?branch=master)](http://travis-ci.org/demaggus83/go-builder) 
+[![GoDoc](https://godoc.org/github.com/demaggus83/go-builder?status.png)](http://godoc.org/github.com/demaggus83/go-builder) 
+[![Go Report Card](https://goreportcard.com/badge/github.com/demaggus83/go-builder)](https://goreportcard.com/report/github.com/demaggus83/go-builder) 
+[![Sourcegraph Badge](https://sourcegraph.com/github.com/demaggus83/go-builder/-/badge.svg)](https://sourcegraph.com/github.com/demaggus83/go-builder?badge)
 
     Notice: cgo i686 builds are untested
 
