@@ -70,6 +70,11 @@ func (b *Build) getArgs(meta *Meta, distFilePath, entryFile string) []string {
 
 // Returns the distFilePath
 func (b *Build) Run(meta *Meta, distPath, entryFile string) (string, error) {
+	if !b.Cgo && b.Target.Special == "musl" {
+		fmt.Println("skipping build...")
+		return "", nil
+	}
+
 	distFilePath := filepath.Join(distPath, b.Target.Filename(meta.Name))
 
 	cmd := exec.Command("go", b.getArgs(meta, distFilePath, entryFile)...)
@@ -83,7 +88,7 @@ func (b *Build) Run(meta *Meta, distPath, entryFile string) (string, error) {
 	if b.Target.GOARCH == "arm" && b.Target.Special != "" {
 		cmd.Env = append(cmd.Env, fmt.Sprintf("GOARM=%s", b.Target.Special))
 	}
-
+	
 	cgo := 0
 	if b.Cgo {
 		cgo = 1

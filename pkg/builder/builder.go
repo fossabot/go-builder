@@ -97,6 +97,9 @@ func (b *Builder) Start() error {
 		now := time.Now()
 		fmt.Printf("* Building \"%s\"...\n", build.Target.Filename(b.meta.Name))
 		distFilePath, err := build.Run(b.meta, b.distDir, b.entryFile)
+		if distFilePath == "" && err == nil {
+			continue
+		}
 
 		dur := time.Since(now).Round(time.Second)
 		if err != nil {
