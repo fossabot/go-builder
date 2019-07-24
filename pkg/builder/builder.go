@@ -80,7 +80,7 @@ func (b *Builder) deleteAndCreateDistDir() error {
 		return err
 	}
 
-	err = os.MkdirAll(b.distDir, 0600)
+	err = os.MkdirAll(b.distDir, 0755)
 	if err != nil {
 		return err
 	}

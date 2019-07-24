@@ -61,6 +61,7 @@ func main() {
 #### 0.1.2
 + go-builder is now building itself on travis
 + added "version" command
++ generated dist directory has now 755 instead of 600
 
 #### 0.1.1
 + go-builder will now skip useless musl builds if CGO is disabled
