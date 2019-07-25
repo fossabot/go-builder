@@ -8,6 +8,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -35,18 +36,19 @@ func detectUpxBinary() (bool, string) {
 	reg := regexp.MustCompile(".*upx\\s(.*?)\\s.*")
 	res := reg.FindStringSubmatch(outBuf.String())
 
-	upxVersion := "unknown"
-	if len(res) >= 1 {
-		upxVersion = res[1]
+	upxVersion, _ := strconv.ParseFloat("3.95", 64)
+	if upxVersion < 3.95 {
+		fmt.Printf("UPX version '%s' is not supported (need 3.95+)", res[1])
+		return false, ""
 	}
 
-	return true, upxVersion
+	return true, res[1]
 }
 
 type UPXResult struct {
-	Algo string
-	CompressedSize string
-	Percent string
+	Algo             string
+	CompressedSize   string
+	Percent          string
 	UncompressedSize string
 }
 
@@ -72,9 +74,9 @@ func (u *UPX) parseUPXResult(output string) (*UPXResult, error) {
 	}
 
 	return &UPXResult{
-		Algo: res[0][4],
-		CompressedSize: res[0][2],
-		Percent: res[0][3],
+		Algo:             res[0][4],
+		CompressedSize:   res[0][2],
+		Percent:          res[0][3],
 		UncompressedSize: res[0][1],
 	}, nil
 }

@@ -71,7 +71,7 @@ func (b *Build) getArgs(meta *Meta, distFilePath, entryFile string) []string {
 // Returns the distFilePath
 func (b *Build) Run(meta *Meta, distPath, entryFile string) (string, error) {
 	if !b.Cgo && b.Target.Special == "musl" {
-		fmt.Println("skipping build...")
+		fmt.Printf("skipping build...\n\n")
 		return "", nil
 	}
 

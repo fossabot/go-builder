@@ -58,6 +58,9 @@ func main() {
 
 ### Changelog
 
+#### 0.1.3
++ go-builder just works with upx 3.95 and higher
+
 #### 0.1.2
 + go-builder is now building itself on travis
 + added "version" command

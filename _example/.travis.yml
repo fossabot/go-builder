@@ -8,10 +8,22 @@ matrix:
     - GO111MODULE=on
 
 before_install:
-  - sudo apt-get install -y upx
+  # travis uses ubuntu 16.04 with upx 3.91 which is incompatible
+  - wget https://github.com/upx/upx/releases/download/v3.95/upx-3.95-amd64_linux.tar.xz
+  - tar -C /usr/local -xf upx-3.95-amd64_linux.tar.xz
+  - export PATH=$PATH:/usr/local/upx-3.95-amd64_linux/
+  # setup go-builder
   - wget https://github.com/demaggus83/go-builder/releases/download/v0.1.2/builder-amd64-linux-upx
   - mv builder-amd64-linux-upx go-builder
   - chmod +x go-builder
+  # if cgo is used
+  # - apt-get -y --no-install-recommends install build-essential automake   \
+  #     autogen libsqlite3-dev upx cpio zip unzip p7zip                     \
+  #     gcc-5-arm-linux-gnueabi libc6-dev-armel-cross                       \
+  #     gcc-5-arm-linux-gnueabihf libc6-dev-armhf-cross                     \
+  #     gcc-5-aarch64-linux-gnu libc6-dev-arm64-cross                       \
+  #     gcc-5-multilib gcc-mingw-w64 clang llvm-dev musl-tools              \
+  #     libtool libxml2-dev uuid-dev libssl-dev swig help2man
 
 script:
 - go mod download

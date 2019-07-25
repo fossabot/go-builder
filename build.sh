@@ -6,6 +6,4 @@ if [ -z ${VERSION}]; then
     VERSION="unknown"
 fi
 
-echo ${VERSION}
-
 go run cmd/builder/main.go -- cmd/builder/main.go -git ${GIT_COMMIT} -version ${VERSION} -upx 9

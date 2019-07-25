@@ -8,7 +8,10 @@ matrix:
     - GO111MODULE=on
 
 before_install:
-  - sudo apt-get install -y upx
+  # travis uses ubuntu 16.04 with upx 3.91 which is incompatible
+  - wget https://github.com/upx/upx/releases/download/v3.95/upx-3.95-amd64_linux.tar.xz
+  - sudo tar -C /usr/local -xf upx-3.95-amd64_linux.tar.xz
+  - export PATH=$PATH:/usr/local/upx-3.95-amd64_linux/
 
 env:
   matrix:
