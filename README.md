@@ -58,6 +58,10 @@ func main() {
 
 ### Changelog
 
+#### 0.1.4
++ go-builder go 1.3 support
++ removed .devcontainer and .vscode from project
+
 #### 0.1.3
 + go-builder just works with upx 3.95 and higher
 

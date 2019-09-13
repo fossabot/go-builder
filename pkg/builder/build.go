@@ -61,10 +61,8 @@ func (b *Build) getArgs(meta *Meta, distFilePath, entryFile string) []string {
 	}
 	args = append(args, b.getSpecialArgs(meta, distFilePath, entryFile)...)
 	args = append(args, b.getTags()...)
-	// ldflags
 	args = append(args, "-ldflags", fmt.Sprintf(`-s -w %s%s`, b.getBuilderVars(meta), b.getCgoFlags()))
 
-	// output / input
 	return append(args, "-o", distFilePath, entryFile)
 }
 
