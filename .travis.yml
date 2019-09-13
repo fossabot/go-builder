@@ -2,7 +2,7 @@ language: go
 sudo: false
 matrix:
   include:
-  - go: 1.12.x
+  - go: 1.13.x
     env:
     - LATEST=true
     - GO111MODULE=on
@@ -14,8 +14,6 @@ before_install:
   - export PATH=$PATH:/usr/local/upx-3.95-amd64_linux/
 
 env:
-  matrix:
-  - GO111MODULE=on
   global:
     secure: xFIixXzg47luOC4XgEHjiCxRtATVAZ+EVesQOlDkS5EffNQMx86lBVnwXxegnQFH9uIz/3eNOvvFBPpY37ngW2q3WHV12Qf6nod1jIK/T48dvhQDGcMJHE9L337ALaH8LmkVGjfZtmlsoIVqjN/ki+A1zDN1LnX1tBbOajFfEXlA8icd9ltenBgA1k1v5L2qaluMeFkjYa+LFLlG2xa3G++baQGibkQCsFwl3UnIcbYCsmENbfI6ZNd2swO6bmcYHsBs/OzLdhGLIjVOxwYPaNiAAKcC4YELQN7gqS6cg/1DO5f/caaQhBwmFlXnvg3KwL2lqG2XT7F3iAc5kz3uOl184fMztkryYklybrwKG5gZki7h+oCbdKSEX29oYvmBewk30ZnH3PblBETT7jdV4Ll8wHo8IarDG/hD/qTvUPFpCSPDmZnkSjLKtv9HDktJUgyUt4c0n7+cVVWvb8gY4X2RJjXjK4yC4CeLvBr6T/XG85Psr1XUBwCkJzE4AFmJVAAJeC3qBHGImwrtqsGoup+Gp2Uk8lE8fAA21Jz5xtIZ1CT57YV1sgwbrnPx4NfgGSLNLZMjNl4IkkgP6Z9lKlqINDlG/9HSJJnCPCzxpI6GhlePZy4iWKAdcQ+G+nif9GLmXNS4WzMy63L1TpkSTaCiWHyn+4ifOsT9d9PJNso=
 
